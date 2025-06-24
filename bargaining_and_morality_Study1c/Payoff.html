@@ -1,0 +1,49 @@
+{{ extends 'global/Page.html' }}
+{{ block title }}Payoff{{ endblock }}
+
+{{ block content }}
+
+Your payoff for participating is: $2.5 
+
+{% if PID == 1 %}
+<br />
+{{group.Did_not_report_same}}
+<br />
+Your payoff for the negotiation stage is: ${{group.NegPayS}}
+
+{% else %}
+<br />
+{{group.Did_not_report_same}}
+<br />
+Your payoff for the negotiation stage is: ${{group.NegPayB}}
+
+
+{% endif %}
+
+
+<br />
+Your payoff for the task stage is:
+{% if PID == 1 %}
+{{TaskPayS}}
+
+{% else %}
+{{TaskPayB}}
+
+{% endif %}
+
+<br />
+<b> Your total payoff is: {{ payoff1 }}
+
+   </b>
+
+<br />
+<br />
+Thank you for taking part in this study.
+
+<!---
+<p align="left"><button class="otree-btn-next btn btn-primary">Finish</button></p>
+<br />
+--->
+
+
+{{ endblock }}

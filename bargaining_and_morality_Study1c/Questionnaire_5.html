@@ -1,0 +1,59 @@
+{{ extends 'global/Page.html' }}
+{{ block title }} Questionnaire{{ endblock }}
+
+{{ block content }}
+
+<div class="card bg-light m-3"> 
+    <div class="card-body"> 
+
+
+        <p> 
+            <br /> 
+
+Please rate the other participant behavior on a scale ranging from 1 (very much) to 5 (not at all) 
+
+<table class="table">
+<colgroup>
+            <col style="width:37%">
+            <col style="width:9%">
+            <col style="width:9%">
+            <col style="width:9%">
+            <col style="width:9%">
+            <col style="width:9%">
+            <col style="width:9%">
+            <col style="width:9%">
+        </colgroup>
+        <style type="text/css">
+        .txtVertical
+        {
+            position: relative;
+            left: 13px;
+        }
+        </style>
+        <thead>
+            <tr align = "left">
+                <th></th>
+                <th>Very much (1)</th>
+                <th>(2)</th>
+                <th>(3)</th>
+                <th>(4)</th>
+                <th>Not at all <br /> (5)</th>
+            </tr>
+        </thead>
+    {{ for field in form }}
+        <tr>
+            <th>{{ field.label }}</th>
+            {{ for choice in field }}
+                <td>{{ choice }}</td>
+            {{ endfor }}
+        </tr>
+    {{ endfor }}
+</table>
+
+    </div>
+       </div>
+
+<p align="left"><button class="otree-btn-next btn btn-primary">Continue</button></p>
+      
+
+{{ endblock }}

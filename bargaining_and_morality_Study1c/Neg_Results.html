@@ -1,0 +1,13 @@
+{{ extends 'global/Page.html' }}
+{{ block title }}The results of the negotiations{{ endblock }}
+
+{{ block content }}
+
+{% if player.is_deal == 1 %}
+You and the other participant did not reach an agreement
+{% else %}
+You have reached an agreement at a price of {{group.deal_price|to0}} points.
+{% endif %}
+<p align="left"><button class="otree-btn-next btn btn-primary">Continue</button></p>
+
+{{ endblock }}

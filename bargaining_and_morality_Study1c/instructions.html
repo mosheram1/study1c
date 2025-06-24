@@ -1,0 +1,52 @@
+{% extends "global/Page.html" %}
+{% block content %}
+
+<div class="card bg-light m-3">
+    <div class="card-body">
+        <h5 class="card-title">Dear participant,</h5>
+
+        <p>
+            You are invited to participate in a research study. You will earn <strong>$2.50</strong> for participating, and additional amounts based on your decisions and those of others.
+        </p>
+        <p>
+            The study has three parts:
+        </p>
+        <ul>
+            <li>Interacting with another participant</li>
+            <li>Performing a task</li>
+            <li>Answering (non-identifying) questions</li>
+        </ul>
+
+        <p>
+            The study takes about <strong>15 minutes</strong>. Your identity and responses are anonymous. Participation is voluntary.
+            <br>
+            Contact: <strong>Moshe Ram</strong> – <a href="mailto:mosheram@gmail.com">mosheram@gmail.com</a>
+        </p>
+
+        <hr>
+
+        <p><strong>Before we begin, please answer the following:</strong></p>
+
+        <div class="form-group">
+            {{ formfield player.Age_dec }}
+        </div>
+        <div class="form-group">
+            {{ formfield player.MTurk_ID }}
+        </div>
+        <div class="form-group">
+            {{ formfield player.Residence }}
+        </div>
+        <div class="form-group">
+            {{ formfield player.English }}
+        </div>
+        <div class="form-group">
+            {{ formfield player.Verification }}
+        </div>
+
+        <br>
+        {{ next_button }}
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,135 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Bonus assignment
+{% endblock %}
+
+{% block content %}
+<p>
+    Please choose one of the letters and keep it in mind. <br>
+    Click the "I chose" button to reveal the corresponding values for each letter
+</p>
+       <div align="left">
+            <button id="confirm-choice" class="btn btn-primary" type="button" onclick="toggleTable()">I chose</button>
+        </div>
+    <html lang="en">
+    <head>
+        <title></title>
+        <style>
+            table, th, td {
+                border: 1px solid black;
+            }
+            th, td {
+                padding: 10px;
+            }
+        </style>
+        <script>
+            function toggleTable() {
+                var tbl0 = document.getElementById("tbl0");
+                var tbl1 = document.getElementById("tbl1");
+
+                tbl0.style.display = (tbl0.style.display === "none") ? "block" : "none";
+                tbl1.style.display = (tbl1.style.display === "none") ? "block" : "none";
+                // Prevent form submission
+                return false;
+
+            }
+        </script>
+    </head>
+    <body>
+        <h2></h2>
+        <div id="tbl0" style="display: none;">
+            <table>
+                <tr>
+                    <th> </th>
+                    <th>A</th>
+                    <th>B</th>
+                    <th>C</th>
+                    <th>D</th>
+                    <th>E</th>
+                    <th>F</th>
+                    <th>G</th>
+                    <th>H</th>
+                    <th>I</th>
+                </tr>
+                <tr>
+                    <td>For Yourself</td>
+                    <td>{{ abc00 }}</td>
+                    <td>{{ abc10 }}</td>
+                    <td>{{ abc20 }}</td>
+                    <td>{{ abc30 }}</td>
+                    <td>{{ abc40 }}</td>
+                    <td>{{ abc50 }}</td>
+                    <td>{{ abc60 }}</td>
+                    <td>{{ abc70 }}</td>
+                    <td>{{ abc80 }}</td>
+                </tr>
+                <tr>
+                    <td>For the other Participant</td>
+                    <td>{{ abc01 }}</td>
+                    <td>{{ abc11 }}</td>
+                    <td>{{ abc21 }}</td>
+                    <td>{{ abc31 }}</td>
+                    <td>{{ abc41 }}</td>
+                    <td>{{ abc51 }}</td>
+                    <td>{{ abc61 }}</td>
+                    <td>{{ abc71 }}</td>
+                    <td>{{ abc81 }}</td>
+
+                </tr>
+            </table>
+        </div>
+        <div id="tbl1" style="display: block;">
+            <table>
+                <tr>
+                    <th> </th>
+                    <th>A</th>
+                    <th>B</th>
+                    <th>C</th>
+                    <th>D</th>
+                    <th>E</th>
+                    <th>F</th>
+                    <th>G</th>
+                    <th>H</th>
+                    <th>I</th>
+                </tr>
+                <tr>
+                    <td>For Yourself</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>For the other Participant</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+            </table>
+        </div>
+<p>
+    <br/>
+    Please report the letter you chose<br>
+    {% formfield "chosen_letter" %}
+    <br>
+    After reporting the letter, click the "Submit" button to proceed to the next page.
+</p>
+<div align="left">
+                <button id="Submit-choice" class="btn btn-primary" type="submit">Submit</button>
+            </div>
+    </body>
+    </html>
+{% endblock %}

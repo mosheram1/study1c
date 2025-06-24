@@ -1,0 +1,58 @@
+{{ extends 'global/Page.html' }}
+{{ block title }} Part 3 - Questionnaire{{ endblock }}
+
+{{ block content }}
+
+<div class="card bg-light m-3"> 
+    <div class="card-body"> 
+
+        <p> 
+            <br /> 
+You have now reached the second part of the experiment, where you are asked to report about the details of the negotiation and answer non identifying questions.<br />
+Please note that some of the questions relate to the other participant and some relate to you.
+
+
+
+
+<table style="width:100%">
+    {% formfield player.first_offeror %}
+  <tr>
+    <td style="width:22%">{% formfield player.my_RP %}</td>
+    <td style="width:25%"> points.</td>
+  </tr>
+    
+  <tr>
+    <td>{% formfield player.my_AP %}</td>
+    <td> points.</td>
+  </tr>
+    
+  <tr>
+    <td>{% formfield player.First_offer %}</td>
+    <td> points.</td>
+  </tr>
+    {% if GT >= 3 %}
+    <tr>
+    <td>
+     (Please fill in "{{BRP_NN|to0}}")    </td>
+        <td>  </td>
+  </tr>       
+    {% endif %}
+  <tr>
+    <td>{% formfield player.Agreed %}</td>
+    <td> <br /> points. </td>
+ 
+  <tr>
+    <td>{% formfield player.Other_RP %}</td>
+    <td> points.</td>
+  </tr>
+    
+   
+</table>             
+
+        
+
+
+<p align="left"><button class="otree-btn-next btn btn-primary">Continue</button></p>
+    </div>
+    </div>
+{{ endblock }}

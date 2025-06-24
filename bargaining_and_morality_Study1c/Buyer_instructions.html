@@ -1,0 +1,56 @@
+{{ extends 'global/Page.html' }}
+{{ block title }}Part 1 - Buyer Instructions{{ endblock }}
+
+{{ block content }}
+
+
+
+<div class="card bg-light m-3">  
+    <div class="card-body"> 
+
+
+        <p> 
+            In this part of the experiment, you are randomly assigned to the role of a BUYER and randomly matched with another participant, a SELLER, with whom you should haggle over the price of a certain item.
+            <p>
+            Your payment for this stage depends on the price you and the seller agree on. The lower the price, the more you profit, so you should take the negotiation as seriously as possible, and try to reach the best result you can (by minimizing the price as much as you can).
+            <p>
+            
+            Your reservation price (the maximum price you would be willing to pay) and the seller's reservation price (the minimum price the seller would be willing to accept) are randomly sampled in the range between 50 to 250 points.
+            <p>
+            The bargaining zone is guaranteed to be positive. This means that it is surely possible to reach an agreement that is profitable for both you and the seller.
+            <p>
+            
+            Your payment for this stage will be based on the distance between the negotiated price and the reservation price, such that you would receive $0.01 (1 cent) for each point. The seller's payment is similarly based on the distance between his/her reservation price and the negotiated price.
+           <p>
+            
+            For example, if your reservation price has been selected to be 250 points, and you and the seller agree on  a price of 150 points, the distance is 100 points, and your payment will be $1. If your reservation price has been selected to be 240 points, and you and the seller agree on a price of 235 points, the distance is 5 points, and your payment will be $0.05 (5 cents).
+           <p>
+         If you do not reach an agreement, you will not receive payment for this part.
+           <p>
+            
+            Note that this negotiation is a zero-sum game: the higher your payment, your counterpart's (the seller) payment is lower, and the higher your counterpart's payment, your payment is lower.
+           <p>
+            
+Your reservation price for the negotiation has been selected to be  <b>{{group.BRP}}</b>.<p>
+Your goal is to achieve the best personal outcome you can.
+            <p>
+            You have up to five minutes to reach an agreement.
+            <br /> 
+
+               </p>
+
+ <p>
+     <hr>
+     <b> Before you move on to the next page, please think carefully and plan the negotiation.
+Please write down your aspiration price (the price you hope to agree on).
+Later in the questionnaire you will be asked about this.
+
+</b>
+        <hr>
+
+    </div>
+    </div>
+
+<p align="left"><button class="otree-btn-next btn btn-primary">Start Negotiation</button></p>
+
+{{ endblock }}

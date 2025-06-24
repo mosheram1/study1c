@@ -1,0 +1,26 @@
+{% extends "global/Page.html" %}
+
+{% block title %}
+Part 2 - Bonus assignment
+{% endblock %}
+
+{% block content %}
+    <div>
+        {% if condition == 'same' %}
+            <p><strong>You are continuing with the same partner.</strong></p>
+        {% else %}
+            <p><strong>You have been randomly reassigned to a new partner for this stage.</strong></p>
+        {% endif %}
+
+        <h2>Instructions for bonus assignment</h2>
+        <p>In this part of the experiment, you will be presented with a table containing nine letters (A, B, C, D, E, F, G, H and I) as column headers. Each letter corresponds to different values in the table.</p>
+        <p>Please choose one of the letters and keep it in mind. Remember not to share your choice with anyone.</p>
+        <p>After you have made your choice, click the "I chose" button to reveal the corresponding values for each letter with varying monetary outcomes for yourself and the other participant.</p>
+        <p>Please carefully read each option and report the letter you initially chose.</p>
+        <p>Press the button below to start the experiment.</p>
+
+        <div align="left">
+            <button id="start-experiment" class="btn btn-primary" type="submit">Start Assignment</button>
+        </div>
+    </div>
+{% endblock %}

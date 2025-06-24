@@ -1,0 +1,164 @@
+{{ extends 'global/Page.html' }}
+{{ block title }}Negotiation{{ endblock }}
+
+{{ block content }}
+<h3>Make a deal</h3>
+<p>This is a 2-player game in which a seller and a buyer are negotiating for the price of an item.</p>
+<p>
+    You are the {{ player.role }}.
+    {% if player.role == 'Seller' %}
+        Your reservation price is {{ group.SRP }} points.
+    {% else %}
+        Your reservation price is {{ group.BRP }} points.
+    {% endif %}
+</p>
+<p>If you or your counterpart click "Accept" or 5 minutes have passed, the negotiation will end and you will be moved to the next stage.</p>
+<p><strong>Note:</strong> After receiving an offer, you will have up to <strong>one minute</strong> to respond. If you do not respond within one minute, the offer will be automatically accepted <strong>at your own reservation price</strong> if it's outside your acceptable range.</p>
+
+<div id="timer" style="font-weight: bold; color: red;"></div>
+
+<table class="table">
+    <tr>
+        <th>Your current proposal</th>
+        <td id="my-proposal">(none)</td>
+        <td>
+            <input type="number" id="my_offer">
+            <button type="button" onclick="sendOffer()">Make new offer</button>
+        </td>
+    </tr>
+    <tr>
+        <th>{{ other_role }} proposal</th>
+        <td id="other-proposal">(none)</td>
+        <td>
+            <button type="button" id="btn-accept" onclick="sendAccept()" style="display: none">Accept</button>
+        </td>
+    </tr>
+</table>
+
+
+<form method="post" id="form">
+    <input type="hidden" name="timeSpent" id="timeSpent"/>
+    <input type="hidden" name="propose_time" id="propose_time" value=""/>
+</form>
+<script>
+let my_offer = document.getElementById('my_offer');
+let btnAccept = document.getElementById('btn-accept');
+let msgOtherProposal = document.getElementById('other-proposal');
+let msgMyProposal = document.getElementById('my-proposal');
+let otherProposal;
+let timerDisplay = document.getElementById("timer");
+let responseTimeout = null;
+let timerInterval = null;
+let forceAccept = 0;
+
+const userrole = "{{ player.role }}";
+const BRP = {{ group.BRP }};
+const SRP = {{ group.SRP }};
+
+function cu(amount) {
+    return `${amount} points`;
+}
+
+function resetResponseTimer(latestAmount) {
+    if (responseTimeout) clearTimeout(responseTimeout);
+    if (timerInterval) clearInterval(timerInterval);
+
+    let remainingTime = 60;
+    timerDisplay.innerText = `Time to auto-accept: ${remainingTime} seconds`;
+
+    timerInterval = setInterval(() => {
+        remainingTime -= 1;
+        timerDisplay.innerText = `Time to auto-accept: ${remainingTime} seconds`;
+        if (remainingTime <= 0) {
+            clearInterval(timerInterval);
+        }
+    }, 1000);
+
+    responseTimeout = setTimeout(() => {
+        let acceptAmount;
+
+        if ((userrole === "Buyer" && latestAmount > BRP) ||
+            (userrole === "Seller" && latestAmount < SRP)) {
+            acceptAmount = (userrole === "Buyer") ? BRP : SRP;
+        } else {
+            acceptAmount = latestAmount;
+        }
+
+        // send a special accept trigger
+        liveSend({ type: "force_accept", amount: acceptAmount });
+        setTimeout(() => {
+    document.getElementById('form').submit();
+}, 1500);
+        btnAccept.style.display = 'none';
+        timerDisplay.innerText = "Offer accepted automatically.";
+    }, 60000);
+}
+
+function sendOffer() {
+    let offer = parseInt(my_offer.value);
+    if (!isNaN(offer)) {
+        if ((userrole === "Buyer" && offer > BRP) || (userrole === "Seller" && offer < SRP)) {
+            alert("Offer out of range.");
+        } else {
+            document.getElementById("propose_time").value += pageTimeElapsed + "," + offer + "|";
+            liveSend({ type: "propose", amount: offer });
+            my_offer.value = '';
+            if (responseTimeout) clearTimeout(responseTimeout);
+            if (timerInterval) clearInterval(timerInterval);
+            timerDisplay.innerText = "";
+        }
+    }
+}
+
+function sendAccept() {
+    if (!isNaN(otherProposal)) {
+        if ((userrole === "Buyer" && otherProposal > BRP) ||
+            (userrole === "Seller" && otherProposal < SRP)) {
+            alert("You cannot accept an offer outside your reservation price.");
+            return;
+        }
+        liveSend({ type: "accept", amount: otherProposal });
+    }
+}
+
+function liveRecv(data) {
+    if ('proposals' in data) {
+        for (let [id, proposal] of data.proposals) {
+            if (id === js_vars.my_id) {
+                msgMyProposal.innerText = cu(proposal);
+            } else {
+                msgOtherProposal.innerText = cu(proposal);
+                if (proposal > 0 && forceAccept === 0) {
+                    forceAccept = 1;
+                    resetResponseTimer(proposal);
+                }
+                otherProposal = proposal;
+                btnAccept.style.display = 'block';
+            }
+        }
+    }
+
+    if ('finished' in data) {
+        document.getElementById('form').submit();
+
+    }
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    liveSend({});
+});
+
+let pageTimeElapsed = 0;
+let pageTimerID = -1;
+function pageTick() {
+    pageTimeElapsed++;
+    document.getElementById("timeSpent").value = pageTimeElapsed;
+}
+window.onload = function () {
+    if (pageTimerID === -1) {
+        pageTimerID = setInterval(pageTick, 1000);
+    }
+};
+</script>
+
+{{ endblock }}
